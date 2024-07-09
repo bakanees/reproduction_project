@@ -1,0 +1,196 @@
+\documentclass{article}
+\usepackage[graphicx]{realboxes} % Required for inserting images
+%\usepackage{mathtools}
+%\usepackage{unicode-math}
+%\setmainfont {Linux Libertine O}
+%\setmathfont{XITS Math}
+\usepackage{blindtext}
+\usepackage{multicol}
+\usepackage{accents}
+
+
+
+
+\usepackage[utf8]{inputenc}
+\title{Sections and Chapters}
+\usepackage{array,multirow}
+\usepackage{enumitem}
+\usepackage{float}% If comment this, figure moves to Page 2
+\usepackage{lipsum}
+%\usepackage[graphicx]{realboxes}
+
+
+\usepackage{fancyhdr}
+
+
+\usepackage[letterpaper, margin=1.5in, top=1.5in, bottom=1.5in]{geometry}
+\usepackage{float}
+\usepackage{mathptmx}%
+\usepackage{longtable}
+\usepackage{tabularx,booktabs}
+\usepackage{ltablex}
+\usepackage{pdfpages}
+% Useful packages
+\usepackage{amsmath}
+%\usepackage{graphicx}
+\usepackage[colorlinks=true, allcolors=blue]{hyperref}
+\usepackage{xcolor}
+\usepackage{listings}
+%\usepackage{hyperref}
+\setlength{\oddsidemargin}{0.25in}
+\setlength{\textwidth}{6.5in}
+\setlength{\topmargin}{0in}
+\setlength{\textheight}{8.5in}
+\title{Reproduction Project\\}
+\author{Edward Sonny Bakane \\
+        matrícula: 0124015814-27D
+        }
+\date{June 2024}
+
+\begin{document}
+\newbox\keywbox
+\setbox\keywbox=\hbox{\bfseries Keywords:}%
+
+\newcommand\keywords{%
+\noindent\rule{\wd\keywbox}{0.25pt}\\\textbf{Keywords:}\ }
+\maketitle
+
+\begin{abstract}
+In secondary
+\end{abstract}
+
+% providing a list of keyword
+\keywords AI, artificial intelligence, agent, active, personalized learning
+
+\section{Introduction}
+
+Our work is to reproduce the article by Li et. al. \cite{li2024}, which is entitle: 'Advancing Spatial Reasoning in Large Language Models: An In-Depth Evaluation and Enhancement Using the StepGame Benchmark'
+
+The current work researched on a solution to improve chatGPT cognition capability to be able to reason and interact with humans in spatial communication. Also, to comprehend the surrounding with the effort to ensure human user immersion when communicating with the bots, perhaps during the time of emergency. Several technology were tested against chatGPT3 to chatGPT4. ChatGPT4 was able to stable it performance at 90\%. This remarkable performance was a result of the current work being able to rectifying errors which were previous ignore. 
+
+The proposed solution is composed of the sentence to relation mapping with logic based spatial reasoning. The combination of StepGame, chatGPT and large language models (LLMs) fused together are said to be game changer for artificial intelligence (AI) in spatial reasoning.  
+
+
+\section{Methodology}
+
+\subsection{Methods}
+
+\paragraph{Solution for the Corrected Benchmark}
+
+According to the Li et al \cite{li2024} claimed that the logic-based is error free. The approach uses the template to address sentence to relation mapping through semantic parsing using closely related statements. ASP reasoner is paramount for reasoning behavior in this work. 
+
+\begin{enumerate}
+    \item Sentence-to-Relation Mapping. In this work, presented description $r$ is check with the resources currently available in the template. The template is equipped with resources such as this $o_{0}\_v\__{o_1}$. To extract the location and verify that $o_{i}$, has not been used anywhere, $k-hop$ is used. When the initial object is $(i = 0)$, it set to $o_{0}$, while the middle object is set to $(i\geq1)$. The prompt is then triggered to look for $o_{i}$.
+    \item The prompt mechanism assists large language models (LLMs) to carry out the mapping procedure on the spatial relations description.
+    \item The computation of the coordinate is done by initializing the $o_{0}$ to $(0,0)$ as well as spatial relation is instantiated  to an offset to process the location of the object using the equation "$O_{i+1}$ = $O_{i}$ + $offset(r^j)$ = $(x_{oi}, y_{oi})$ + $(x_{v}, y_{v})$ = $(x_{o_(i+1)}, y_{o_{i+1}})$". 
+\end{enumerate}
+
+\paragraph{Tree-of-Thoughts (ToT) Prompting}
+
+In this work, algorithm 1 assumes the responsibility of improving the reasoning chain building process. As it does, it grant LLMs to pursue other avenues. In a case where obstructing mapping may arise while performing lookup for the relation and object, LLMs can be triggered to handle the problem. One of the interesting functions of the algorithm 1, is that it triggers LLMs to setup the tree structure from a default state ensuring that clearance for current state is complete. 
+\begin{itemize}
+    \item Thought Generation:
+    LLMs are permitted to initiate the proposal of the j thought generation prompt while focusing in utilizing all the unused relations to enumerate all potential expansions of the chain making used of the relations that are not currently used with the experiment. Fig. 1 represents the algorithm for the thought generation approach illustration:
+
+%-- 
+\begin{figure}[!ht]
+    \centering
+    \includegraphics[width=7.5cm]{img/tgenalgorithm1}
+    \caption{Thought generation approach illustration}
+    \label{fig:Thought generation}
+\end{figure}
+%--
+
+In this experiment, when $j=2$, it instructs the LLMs to produce the time two.
+    
+    \item State Evaluation: Li et al \cite{li2024}, state that their approach consist of classification methodology which make use of the designed value prompt that attentively checks if the chain is able to reach the target. The chain expansion may have reach the target or not. It reached, perfect but if not yet reached target the assumption is that it is likely complicated to more especially if there are unused relations. Furthermore, It has been established that prompt directs the LLM through sequential step by step to explore recently produced states $s \in S$. This employs the LLM stochastic procedure that excludes the zero temperature for increasing the reliability scoring. Some output such '$sure$', '$likely$' and '$impossible$' and transformed into numerical values through a function $Q()$ in order to permit the selection procedure with all the new created states.
+
+    \item Search Algorithm: In this research, breadth first search is used with the depth of the tree limited to 10 ($depth = 10$) and the with restricted to '$b = 3$'. During the training, with $b = 3$ the procedure terminates immediately when the connecting chain reaches the targeted object. 
+\end{itemize}
+
+According to Li et al \cite{li2024}, their approach approach builds chain from $O_{0}$ all the way to $O_{0}$. Their spatial relation amongst such objects are computed based on the old CoT prompting technique using the $c^{map}$ as well as $c^{calcu}$.
+
+\subsection{Experimental Design}
+
+
+\subsubsection{Model Settings}
+
+This research utilizes the Azure OpenAI service for chatGPT-3.5-Turbo, GPT-3 and GPT-4 API access. For more reliable concentrated as well as deterministic results, the have initialized the temperature to 0 in the CoT experiment. The ToT experiments set the the comperature at $0.7$ default to produce different thought proposals.
+\paragraph{Different Test Subsets:}  According to Li et al \cite{li2024}, they have used 30 or 100 test examples for a complete set of 10,000 for every $k^{th}$ value. However, they have acknowledged that this technique is pron to irregularities that may introduce biases.
+
+Moverover, this experiment explores the effects of these number of test examples. Their main focus is to verify the impact of limited number of test examples on the accuracy of the results. They conducted tests on a clean test set which was separated for ($k \in [1.10]$) which resulted in covering a range of task complexities. So, they performed test 30, 100 and 1000 test examples check the effect number of the experiment examples on the evaluation.
+
+\paragraph{Different Few-Shot Sets:} Three different few shot were fired that triggered sets to evaluate how input examples influence prompts:
+
+\begin{itemize}
+    \item   $clean 5shot(1,3,5,7,10):$ They created a single prompt composed of five examples, thus include 1-hop, 3=hop, 5-hop, 5-hop and 10-hop reasoning.
+    \item   $clean 10shot:$ Then a formulation of a prompt which utilizes 10 examples, everyone taken from a certain k-hop from a clean set.
+    \item   $clean 5shot separate:$ It builds a prompt for everyone k-hop reasoning task, using the previous 5 examples from corresponding k-hop training set as few shot examples.
+\end{itemize}
+
+%--Reproduction
+\section{Reproduction}
+
+\subsection{Experimental Results}
+
+\subsubsection{Evaluation Results}
+
+\paragraph{Influence of Scale of Test Examples}
+Li et al \cite{li2024} stated that their results were based on the clean 10shot. When evaluating the expanded test set which was made up of 1000 examples, the model demonstrated a uniform decline in performance as $k$ raise from 1 to 10. The assumption is that the results may be due to the increment of complexity as the number of hops go up. however, test sets involving 100 and 30 examples have shown results which are less consistence. The author assumed that smaller small sizes provided may have a pivotal role in these fluctuation. Hence, the believe larger datasets may provide a more reliable test bed.
+
+\paragraph{Influence of Prompting Examples:} Li et al \cite{li2024} explain that subplot demonstrates that the decision of choice of prompting strategy may affect the model's capability to handle tasks of different complexity differently. It is further stated that as the number of hops significantly go up there is a notable decline in accuracy. These 3 techniques produce close results. Even though differences are there on specific hop levels, there is no notable single technique that performs better than the rest. Refer to the table: 2.1
+
+%--
+\begin{table}
+    \centering
+    \begin{tabular}{ccccc}
+         & $left/right$ & $above/below$ & $lower_left/ upper_right$ & $lower_right/upper_left$\\
+         total & 44 & 53 & 50 & 53\\
+         text-curie-001 & 11 & 41 & 30 & 37\\
+         text-davinci-003 & 0 & 0 & 0 & 2\\
+         gpt-3.5-turbo& 2 & 2 & 3 & 1\\
+    \end{tabular}
+    \caption{The relation extraction performance of GPT. The numbers in rows 2-4 are incorrect predictions numbers}
+    \label{tab:The relation extraction performance of GPT. The numbers in rows 2-4 are incorrect predictions numbers.}
+\end{table}
+%--
+
+According to the authors, clean 5shot (1,3,5,7,10) has shown to outperform clean 10shot (1~10) in every hop level. Their results interpretation suggest that it is essential to pick examples from a wider spectrum of hop levels instead of relying on each hop level.
+
+\paragraph{Influence of Models:} This research deduced comparison between GPT-3, turbo and Davinci models. The possible reason may, it lacks in reading understanding, part of speech, as well as extracting relation tasks which may be as a results of its smaller model size. However, in stepGame spatial reasoning task needs the understanding of sequential connections as well as drawing of the deductions from them. Even though Davinci outperforms turbo, the difference is notably minimal in terms of performs. The more the increment in complexity levels they seem to broadly meet each other halfway.
+
+\subsubsection{Results of the Improved Methods}
+
+\paragraph{Resolution for the Benchmark:} According to the author, the results of mapping and reasoning illustrate the accuracy in scores and high scores represent better performance. Their improvement have resulted into achieving correct spatial relation mapping as well as multihop spatial reasoning with no errors discovered.
+
+\paragraph{GPT for Relation Extraction + ASP for Reasoning:} When analysing GPT performance on the relation extraction subtask, they noted that Curie has highest number of incorrect prediction in all relations while Davinci and Turbo are doing well. 
+
+
+\paragraph{CoT and ToT:} The authors stated that GPT-4 and tree-of-thoughts (ToT) are as a result of a test set which consist of 20 instances. Davinci and Turbo used a larger test set with 100 examples. The results for both the base and CoT methods were achieved through $5shot separate$ from the clean set. The results of $ToT_CoT$ in this section are of GPT-4 linkage chain. Afterwards Turbo, Davinci and GPT-4 were hooked together for CoT reasoning behind the built connections. GPT-4's dominance proven to be outperform its competitors across all problem set. However, GPT-4 struggles as level of complexity is increased. 
+
+CoT and ToT approach have contributed to a better performance of the GPT-4 model for complex tasks which run from $k = 2 to k = 10$. According to Li et al \cite{li2024}, their presented ToT and CoT amplified the robustness of performance of the Davinci and GPT-4 especially with hops that are larger. Turbo model does not do very well. This maybe due to this work's prompts which requires knowledge of the coordinates and relations.
+
+
+%--Reproduction
+%\paragraph{Spatial Objects positions diagram}
+%-- 
+\begin{figure}[!ht]
+    \centering
+    \includegraphics[width=10.5cm]{img/spatial-objects-positions.png}
+    \caption{Spatial Objects positions diagram}
+    \label{fig:Spatial Objects positions}
+\end{figure}
+%--
+%--
+\section{Conclusions}
+
+This research presented a more improved approach GPT-4 and Davinci for reasoning and mapping spatial relations. In this paper, Turbo did not perform well compared to the newly devised approach. They have also highlighted that...
+
+%--
+
+%TC:ignore
+\newpage
+\bibliographystyle{plain}
+%\printbibliography{alpha}
+\bibliography{refs}
+\end{document}
